@@ -2,15 +2,17 @@
 # -*- coding: utf-8 -*-
 # Create Time: 2020/3/7 20:26
 # Author: Riners
+import json
 
 import requests
-import time
-import commands
-import json
+
 tianji_service_result_api = 'http://localhost:7070/api/v3/column/service.res.result'
 ret = requests.get(tianji_service_result_api).json()
+
+
 class QueryInfo(object):
     '''get db info'''
+
     def get_db_info(self, db_name):
         ret = requests.get(tianji_service_result_api).json()
         db_list = []
@@ -19,21 +21,21 @@ class QueryInfo(object):
             if 'db_password' in ret1:
                 ret2 = json.loads(str(ret1))
                 db_list.append(ret2)
-        # print db_list
         for i in db_list:
-           # if db_name in i:
-           if i['db_name'] == db_name:
+            if i['db_name'] == db_name:
                 return i
-    def query_db_login_info(self,dbname):
+
+    def query_db_login_info(self, dbname):
         db_json = self.get_db_info(dbname)
         db_host = db_json.get("db_host")
         db_name = db_json.get("dbName")
         db_user = db_json.get("db_user")
         db_password = db_json.get("db_password")
         db_port = db_json.get("db_port")
-        login_info = 'mysql -h%s -u%s -p%s -P%s ' % (db_host, db_user, db_password, db_port )
+        login_info = 'mysql -h%s -u%s -p%s -P%s -D%s' % (db_host, db_user, db_password, db_port, db_name)
         print login_info
         return login_info
+
     def get_dns_info(self, app_name):
         ret = requests.get(tianji_service_result_api).json()
         dns_list = []
@@ -43,8 +45,8 @@ class QueryInfo(object):
                 ret2 = json.loads(str(ret1))
                 dns_list.append(ret2['domain'])
         for i in dns_list:
-           if app_name in i:
-               print i
+            if app_name in i:
+                print i
 
     def main(self):
         # while True:
@@ -57,7 +59,8 @@ class QueryInfo(object):
             db_login_info = self.query_db_login_info(db_name)
         else:
             raise SystemExit("something error, exiting.....")
+
+
 if __name__ == '__main__':
     query_info = QueryInfo()
     query_info.main()
-    # query_info.get_dns_info('manage')

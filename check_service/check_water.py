@@ -3,15 +3,14 @@
 # Create Time: 2020/3/7 10:59
 # Author: Riners
 
-import re
-import csv
+
 import sys
 import subprocess
 import requests
 import argparse
-import time
 
-from socket import *
+
+
 from decimal import Decimal, getcontext
 
 Description = '''
@@ -79,13 +78,6 @@ class CheckWater(object):
             raise SystemExit("V2 and V3 cannot use together!")
         return args
 
-    #
-    # def get_v2_ag(self):
-    #     ag_dict = {}
-    #     pass
-
-
-
     def get_v3_ag(self):
         ag_dict ={}
         blikns, tianji = self.get_blink_pangu_ip()
@@ -114,7 +106,7 @@ class CheckWater(object):
 
     def request_api(self):
         ret = requests.get(tianji_api)
-        # print ret
+
         return ret.json()
 
     def get_v3_ips(self):
@@ -137,7 +129,6 @@ class CheckWater(object):
 
     def get_ip(self, role):
         ret = requests.get(role).json()
-        # print ret
         if ret:
             return ret[0]['m.ip']
 
