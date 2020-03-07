@@ -57,11 +57,6 @@ class QueryInfo(object):
             db_login_info = self.query_db_login_info(db_name)
         else:
             raise SystemExit("something error, exiting.....")
-
-
-
-
-
 if __name__ == '__main__':
     query_info = QueryInfo()
     query_info.main()
