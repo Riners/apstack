@@ -63,21 +63,17 @@ def colorPrint(msg, color = None):
 class CheckWater(object):
     def __init__(self):
         self.args = self.parse_args()
-
     def init_args(self):
         parser = argparse.ArgumentParser(description=Description)
         parser.add_argument("-V", action='version', version= VERSION)
         parser.add_argument("-V2", '-v2', action='store_true', dest = 'version2', default=False, help='check for v2')
         parser.add_argument("-V3", '-v3', action='store_true', dest = 'version3', default=False, help='check for v3')
         return parser
-
-
     def parse_args(self):
         args = self.init_args().parse_args()
         if args.version2 and args.version3:
             raise SystemExit("V2 and V3 cannot use together!")
         return args
-
     def get_v3_ag(self):
         ag_dict ={}
         blikns, tianji = self.get_blink_pangu_ip()
@@ -86,7 +82,6 @@ class CheckWater(object):
         ots = self.get_ip(ots_ag)
         odps = self.get_ip(odps_ag)
         ads = self.get_ip(ads_ag)
-
         if ecs:
             ag_dict["ecs"] = ecs
         if oss:
@@ -101,14 +96,10 @@ class CheckWater(object):
             ag_dict ["blins"] = blikns
         if tianji:
             ag_dict ["tianji"] = tianji
-
         return ag_dict
-
     def request_api(self):
         ret = requests.get(tianji_api)
-
         return ret.json()
-
     def get_v3_ips(self):
         ips = []
         result = self.request_api()
@@ -116,23 +107,17 @@ class CheckWater(object):
             if i['m.project'] in product:
                 ips.append((i['m.project'], i['m.ip']))
         return ips
-
     def get_cs_info(self, role):
         cmd = 'ssh %s -o ConnectTimeout=3 "/apsara/deploy/puadmin lscs"' % (role)
-
-
         try:
             cs_info = subprocess.check_output(cmd, shell=True).split('\n')
         except subprocess.CalledProcessError:
             return False
         return cs_info
-
     def get_ip(self, role):
         ret = requests.get(role).json()
         if ret:
             return ret[0]['m.ip']
-
-
     def get_blink_pangu_ip(self):
         blink_pangu_ip, tianji_pangu_ip= ('','')
         ret1 = requests.get(pangu_api)
