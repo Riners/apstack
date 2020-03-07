@@ -2,21 +2,14 @@
 # -*- coding: utf-8 -*-
 # Create Time: 2020/3/7 10:59
 # Author: Riners
-
-
 import sys
 import subprocess
 import requests
 import argparse
-
-
-
 from decimal import Decimal, getcontext
-
 Description = '''
 Check Pangu And Disk Water
 '''
-
 VERSION = '1.0'
 tianji_api = "http://127.0.0.1:7070/api/v3/column/m.*"
 oss_ag = "http://localhost:7070/api/v3/column/m.ip?m.sr.id=oss-chiji.ChijiAgent%23"
